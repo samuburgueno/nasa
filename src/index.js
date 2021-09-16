@@ -4,9 +4,9 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist'
 
+import * as serviceWorker from './serviceWorker';
 import App from './App';
 import store from './app/services/store';
-import * as serviceWorker from './serviceWorker';
 import 'bulma/css/bulma.min.css';
 
 let persistor = persistStore(store)
