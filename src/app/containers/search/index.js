@@ -18,6 +18,8 @@ const Search = () => {
 	const [searches, setSearches] = useState([])
 	const [cameras, setCameras] = useState([])
 
+	console.log(rover.manifest.max_date)
+
 	const { handleSubmit, control, getValues, setValue } = useForm({
 		defaultValues: {
 			earth_date: moment(rover.manifest.max_date).toDate(),
@@ -85,102 +87,103 @@ const Search = () => {
 
 	return(
 		<div className="column Search">
-			<form onSubmit={handleSubmit(onSubmit)}>
-
-				<div className="control">
-					<label className="label" htmlFor="date_filter">Tipo de fecha</label>
-					<Controller
-						control={control}
-						name="date_filter"
-						render={({ field: { onChange, onBlur, value, ref } }) => (
-							<div className="control">
-								<label className="radio">
-									<input 
-										onChange={onChange} 
-										onBlur={onBlur} 
-										ref={ref} 
-										type="radio" 
-										value="earth_date" 
-										checked={value === 'earth_date' ? true : false}
-										name="date_filter" />
-									Tierra</label>
-								<label className="radio">
-									<input 
-										onChange={onChange} 
-										onBlur={onBlur} 
-										ref={ref} 
-										type="radio" 
-										value="sol" 
-										checked={value === 'sol' ? true : false}
-										name="date_filter" />
-									Sol</label>
-							</div>
-						)}
-					/>
-				</div>
-
-				{(getValues('date_filter') === 'earth_date') &&
+			{rover.manifest.name !== undefined &&
+				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="control">
-						<label className="label" htmlFor="earth_date">Fecha de la tierra</label>
+						<label className="label" htmlFor="date_filter">Tipo de fecha</label>
 						<Controller
 							control={control}
-							name="earth_date"
+							name="date_filter"
 							render={({ field: { onChange, onBlur, value, ref } }) => (
-								<DatePicker
-									className="input"
-									dateFormat="dd/MM/yyyy"
-									locale="es"
-									maxDate={setMaxDate()}
-									onChange={onChange}
-									onBlur={onBlur}
-									selected={value}
-									ref={ref} />
-								)}
-							/>
-					</div>
-				}
-				
-				{(getValues('date_filter') === 'sol') &&
-					<div className="control">
-					<label className="label" htmlFor="sol">Fecha solar</label>
-						<Controller
-							control={control}
-							name="sol"
-							render={({ field: { onChange, onBlur, value, ref } }) => (
-								<input
-									type="number"
-									min={1}
-									max={rover.manifest.max_sol}
-									className="input"
-									onChange={onChange}
-									onBlur={onBlur}
-									ref={ref} />
+								<div className="control">
+									<label className="radio">
+										<input 
+											onChange={onChange} 
+											onBlur={onBlur} 
+											ref={ref} 
+											type="radio" 
+											value="earth_date" 
+											checked={value === 'earth_date' ? true : false}
+											name="date_filter" />
+										Tierra</label>
+									<label className="radio">
+										<input 
+											onChange={onChange} 
+											onBlur={onBlur} 
+											ref={ref} 
+											type="radio" 
+											value="sol" 
+											checked={value === 'sol' ? true : false}
+											name="date_filter" />
+										Sol</label>
+								</div>
 							)}
 						/>
 					</div>
-				}
 
-				<div className="control">
-					<label className="label">Cámaras</label>
-					<div className="tags">
-			            {cameras.map((cam) => 
-			                <span onClick={() => onClickCamera(cam)} key={cam} className={`tag ${getValues("camera") === cam ? 'is-primary' : ''}`}>{cam}</span>
-			            )}
-			        </div>
-				</div>
+					{(getValues('date_filter') === 'earth_date') &&
+						<div className="control">
+							<label className="label" htmlFor="earth_date">Fecha de la tierra</label>
+							<Controller
+								control={control}
+								name="earth_date"
+								render={({ field: { onChange, onBlur, value, ref } }) => (
+									<DatePicker
+										className="input"
+										dateFormat="dd/MM/yyyy"
+										locale="es"
+										maxDate={setMaxDate()}
+										onChange={onChange}
+										onBlur={onBlur}
+										selected={value}
+										ref={ref} />
+									)}
+								/>
+						</div>
+					}
+					
+					{(getValues('date_filter') === 'sol') &&
+						<div className="control">
+						<label className="label" htmlFor="sol">Fecha solar</label>
+							<Controller
+								control={control}
+								name="sol"
+								render={({ field: { onChange, onBlur, value, ref } }) => (
+									<input
+										type="number"
+										min={1}
+										max={rover.manifest.max_sol}
+										className="input"
+										onChange={onChange}
+										onBlur={onBlur}
+										ref={ref} />
+								)}
+							/>
+						</div>
+					}
 
-				<Controller 
-                    control={control}
-                    name="camera"
-                    render={({ field: { onChange, onBlur, value, ref } }) => (
-                    	<input type="hidden" />
-                    )}
-                />
+					<div className="control">
+						<label className="label">Cámaras</label>
+						<div className="tags">
+							{cameras.map((cam) => 
+								<span onClick={() => onClickCamera(cam)} key={cam} className={`tag ${getValues("camera") === cam ? 'is-primary' : ''}`}>{cam}</span>
+							)}
+						</div>
+					</div>
 
-				<div className="control">
-					<input type="submit" className="button is-primary input" value="Buscar" />
-				</div>
-			</form>
+					<Controller 
+						control={control}
+						name="camera"
+						render={({ field: { onChange, onBlur, value, ref } }) => (
+							<input type="hidden" />
+						)}
+					/>
+
+					<div className="control">
+						<input type="submit" className="button is-primary input" value="Buscar" />
+					</div>
+				</form>
+			}
 		</div>
 	)
 }
