@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Loading from '../../components/loading'
+import EmptyState from '../../components/empty-state'
+import Modal from '../../components/modal'
+
 import { roverRequestManifest, roverRequestPhotos } from '../../services/models/rover/slice';
 
 const Rover = ({ selectedRover }) => {
@@ -10,6 +13,8 @@ const Rover = ({ selectedRover }) => {
 
 	const [currentPage, setCurrentPage] = useState(1)
 	const [photos, setPhotos] = useState([])
+	const [showModal, setShowModal] = useState(false)
+	const [imageForModal, setImageForMmodal] = useState(false)
 
 	const getPhotos = (params) => {
 		setPhotos([])
@@ -17,6 +22,11 @@ const Rover = ({ selectedRover }) => {
 			rover: selectedRover,
 			params
 		}))
+	}
+
+	const openModal = (image) => {
+		setImageForMmodal(image)
+		setShowModal(true)
 	}
 
 	useEffect(() => {
@@ -65,9 +75,9 @@ const Rover = ({ selectedRover }) => {
 				{!rover.isFetching && !rover.isFetchingPhotos &&
 					<div className="column">
 						{photos.length > 0 &&
-							<div className="WrapperPhotos columns is-flex-wrap-wrap">
+							<div className="WrapperPhotos columns is-flex-wrap-wrap is-variable is-2">
 								{photos.map((photo) => (
-									<div key={photo.id} className="column is-one-third">
+									<div onClick={() => openModal(photo.img_src)} key={photo.id} className="column is-one-third">
 										<div className="card">
 											<div className="card-image">
 												<figure className="image is-4by3">
@@ -80,6 +90,16 @@ const Rover = ({ selectedRover }) => {
 							</div>
 						}
 					</div>
+				}
+
+				{!rover.isFetching && !rover.isFetchingPhotos && photos.length === 0 &&
+					<EmptyState />
+				}
+
+				{showModal &&
+					<Modal
+						setShowModal={setShowModal}  
+						image={imageForModal} />
 				}
 			</div>
 		</div>

@@ -6,7 +6,6 @@ import moment from 'moment'
 import es from 'date-fns/locale/es';
 import "react-datepicker/dist/react-datepicker.css";
 
-import CameraFilter from '../../components/camera-filter';
 import { filterRequestSearch } from '../../services/models/filter/slice'
 import { CURIOSITY_CAMS, OPPORTUNITY_CAMS, SPIRIT_CAMS } from '../../services/utils/constants';
 
@@ -19,14 +18,14 @@ const Search = () => {
 	const [searches, setSearches] = useState([])
 	const [cameras, setCameras] = useState([])
 
-	const { handleSubmit, control, getValues } = useForm({
+	const { handleSubmit, control, getValues, setValue } = useForm({
 		defaultValues: {
 			earth_date: new Date(),
 			date_filter: "earth_date",
 			sol: rover.manifest.max_sol
 		}
 	})
-	useWatch({ control, name: 'date_filter' })
+	useWatch({ control, name: ['date_filter', 'camera'] })
 
 	const onSubmit = (data) => {
 		let search = {}
@@ -40,8 +39,18 @@ const Search = () => {
 			}
 		}
 
+		search.camera = data.camera
+
 		dispatch(filterRequestSearch(search))
 		setSearches([...searches, search])
+	}
+
+	const onClickCamera = (cam) => {
+		if(getValues("camera") === cam) {
+			setValue("camera", undefined)
+		} else {
+			setValue("camera", cam)
+		}
 	}
 
 	useEffect(() => {
@@ -145,9 +154,21 @@ const Search = () => {
 				}
 
 				<div className="control">
-					<label className="label" htmlFor="cameras">Cámaras</label>
-					<CameraFilter options={cameras} />
+					<label className="label">Cámaras</label>
+					<div className="tags">
+			            {cameras.map((cam) => 
+			                <span onClick={() => onClickCamera(cam)} key={cam} className={`tag ${getValues("camera") === cam ? 'is-primary' : ''}`}>{cam}</span>
+			            )}
+			        </div>
 				</div>
+
+				<Controller 
+                    control={control}
+                    name="camera"
+                    render={({ field: { onChange, onBlur, value, ref } }) => (
+                    	<input type="hidden" />
+                    )}
+                />
 
 				<div className="control">
 					<input type="submit" className="button is-primary input" value="Buscar" />
