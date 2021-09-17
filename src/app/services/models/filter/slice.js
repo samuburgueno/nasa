@@ -6,7 +6,8 @@ const filterSaga = createSlice({
         lastSearch: {},
         searches: [],
         error: false,
-        message: ""
+        message: "",
+        searchFromFavorite: false
     },
     reducers: {
         filterRequestSearch(state, action) {},
@@ -28,6 +29,10 @@ const filterSaga = createSlice({
         filterSaveSearchError(state, action) {
             state.error = true
             state.message = action.payload
+        },
+        filterRequestSearchFavorite(state, action) {},
+        filterSearchFromFavorite(state, action) {
+            state.searchFromFavorite = action.payload
         }
     }
 })
@@ -40,7 +45,9 @@ export const {
     filterRequestSearchError,
     filterSaveSearch,
     filterSaveSearchSuccess,
-    filterSaveSearchError
+    filterSaveSearchError,
+    filterRequestSearchFavorite,
+    filterSearchFromFavorite
 } = actions
 
 export default reducer

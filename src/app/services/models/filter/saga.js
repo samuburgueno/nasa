@@ -6,7 +6,9 @@ import {
     filterRequestSearchError,
     filterSaveSearch,
     filterSaveSearchSuccess,
-    filterSaveSearchError
+    filterSaveSearchError,
+    filterRequestSearchFavorite,
+    filterSearchFromFavorite
 } from './slice'
 
 function* filterRequestSearchWorker(action) {
@@ -26,9 +28,14 @@ function* filterSaveSearchWorker(action) {
     }
 }
 
+function* filterRequestSearchFavoriteWorker(action) {
+    yield put(filterSearchFromFavorite(action.payload))
+}
+
 function* filterSaga() {
     yield takeEvery(filterRequestSearch, filterRequestSearchWorker)
     yield takeEvery(filterSaveSearch, filterSaveSearchWorker)
+    yield takeEvery(filterRequestSearchFavorite, filterRequestSearchFavoriteWorker)
 }
 
 export default filterSaga

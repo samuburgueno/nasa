@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Loading, EmptyState, Modal } from '../../components'
 
 import { roverRequestManifest, roverRequestPhotos } from '../../services/models/rover/slice';
-import { filterRequestSearch } from '../../services/models/filter/slice'
+import { filterRequestSearch, filterRequestSearchFavorite } from '../../services/models/filter/slice'
 
 const Rover = ({ selectedRover }) => {
 	const dispatch = useDispatch()
@@ -22,6 +22,7 @@ const Rover = ({ selectedRover }) => {
 			rover: selectedRover,
 			params
 		}))
+		dispatch(filterRequestSearchFavorite(false))
 	}
 
 	const openModal = (image) => {
@@ -35,14 +36,15 @@ const Rover = ({ selectedRover }) => {
 
 	// Cuando cambia el rover elegido se obtiene el manifest del mismo y seteo los parametros del query.
 	useEffect(() => {
-		if(rover.manifest.name !== undefined) {
+		if(rover.manifest.name !== undefined && !filters.searchFromFavorite) {
+			console.log("Despacho el pedido en el rover")
 			dispatch(filterRequestSearch({
 				page: currentPage,
 				earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD'),
 				rover: selectedRover
 			}))
 		}
-	}, [rover.manifest])
+	}, [rover.manifest, filters.searchFromFavorite])
 
 	useEffect(() => {
 		setPhotos(rover.photos)

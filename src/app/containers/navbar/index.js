@@ -4,8 +4,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment';
 
 import history from '../../services/navigation/history'
-import { filterRequestSearch, filterSaveSearch } from '../../services/models/filter/slice';
 import { ROVERS } from '../../services/utils/constants'
+
+import { filterRequestSearch, filterSaveSearch, filterRequestSearchFavorite } from '../../services/models/filter/slice';
 import { roverRequestManifest, roverRequestPhotos } from '../../services/models/rover/slice';
 
 const Navbar = () => {
@@ -14,12 +15,13 @@ const Navbar = () => {
 
 	const handleClickSearch = (search) => {
 		console.log(search)
-		// history.push(`/${search.rover}`)
-		// dispatch(roverRequestManifest(search.rover))
-		// dispatch(roverRequestPhotos({
-		// 	params: search,
-		// 	rover: search.rover
-		// }))
+		dispatch(filterRequestSearchFavorite(true))
+		history.push(`/${search.rover}`)
+		dispatch(roverRequestManifest(search.rover))
+		dispatch(roverRequestPhotos({
+			params: search,
+			rover: search.rover
+		}))
 	}
 
 	const handleClickDelete = (index) => {
