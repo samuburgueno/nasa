@@ -41,3 +41,7 @@
     padding-bottom: var(--columnGap);
     padding-top: var(--columnGap);
 }
+
+.box .buttons {
+    margin-top: 5px;
+}

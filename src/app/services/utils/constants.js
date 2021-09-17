@@ -23,3 +23,9 @@ export const SPIRIT_CAMS = [
     "PANCAM",
     "MINITES"
 ]
+
+export const ROVERS = {
+    "curiosity": "Curiosity",
+    "opportunity": "Opportunity",
+    "spirit": "Spirit"
+}

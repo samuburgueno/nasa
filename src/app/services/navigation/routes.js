@@ -7,10 +7,11 @@ import {
 } from "react-router-dom";
 
 import Home from '../../containers/home'
+import history from './history';
 
 const Routes = () => {
   return (
-    <Router>
+    <Router history={history}>
         <Switch>
             <Route exact path="/">
                 <Redirect to="/curiosity" />

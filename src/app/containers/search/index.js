@@ -13,7 +13,7 @@ import { CURIOSITY_CAMS, OPPORTUNITY_CAMS, SPIRIT_CAMS } from '../../services/ut
 moment.locale('es')
 registerLocale('es', es)
 
-const Search = () => {
+const Search = ({ selectedRover }) => {
 	const dispatch = useDispatch()
 	const { rover, filters } = useSelector((state) => state)
 	
@@ -43,6 +43,7 @@ const Search = () => {
 		}
 
 		search.camera = data.camera
+		search.rover = filters.lastSearch.rover
 
 		dispatch(filterRequestSearch(search))
 		setSearches([...searches, search])

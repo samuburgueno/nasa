@@ -13,7 +13,14 @@ const Home = (props) => {
 		<Layout className="Home">
 			<Nabvar />
 			<Rover {...props} />
-			<Search key={props.selectedRover} />
+			
+			{(rover.isFetching || rover.manifest.name === undefined) &&
+				<div className="column Search"></div>
+			}
+			
+			{(!rover.isFetching && rover.manifest.name !== undefined) &&
+				<Search {...props} />
+			}
 		</Layout>
 	)
 }
