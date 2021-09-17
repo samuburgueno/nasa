@@ -5,6 +5,7 @@ const roverSlice = createSlice({
     initialState: {
         manifest: {},
         isFetching: false,
+        isFetchingPhotos: false,
         error: false,
         message: "",
         photos: []
@@ -13,6 +14,9 @@ const roverSlice = createSlice({
         roverRequestManifest(state, action) {},
         roverIsFetching(state, action) {
             state.isFetching = action.payload
+        },
+        roverIsFetchingPhotos(state, action) {
+            state.isFetchingPhotos = action.payload
         },
         roverRequestManifestSuccess(state, action) {
             state.isFetching = false
@@ -27,13 +31,13 @@ const roverSlice = createSlice({
         },
         roverRequestPhotos(state, action) {},
         roverRequestPhotoSuccess(state, action) {
-            state.isFetching = false
+            state.isFetchingPhotos = false
             state.photos = action.payload
             state.error = false
             state.message = ""
         },
         roverRequestPhotosError(state, action) {
-            state.isFetching = false
+            state.isFetchingPhotos = false
             state.error = true
             state.message = action.payload
         }
@@ -49,7 +53,8 @@ export const {
     roverRequestManifestError,
     roverRequestPhotos,
     roverRequestPhotoSuccess,
-    roverRequestPhotosError
+    roverRequestPhotosError,
+    roverIsFetchingPhotos
 } = actions
 
 export default reducer

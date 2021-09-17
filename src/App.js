@@ -1,9 +1,12 @@
 import React from 'react';
-import Home from './app/containers/home'
+
+import Routes from './app/services/navigation/routes';
 
 const App = () => {
   return (
-    <Home />
+    <div className="container">
+      <Routes />
+    </div>
   );
 }
 

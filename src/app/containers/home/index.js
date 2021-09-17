@@ -5,11 +5,11 @@ import Nabvar from '../navbar'
 import Rover from '../rover'
 import Search from '../search'
 
-const Home = () => {
+const Home = (props) => {
 	return(
 		<Layout className="Home">
 			<Nabvar />
-			<Rover />
+			<Rover {...props} />
 			<Search />
 		</Layout>
 	)

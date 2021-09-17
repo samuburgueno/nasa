@@ -1,9 +1,10 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { getManifest, get } from '../../api'
+import { get } from '../../api'
 import { 
     roverRequestManifest,
     roverIsFetching,
+    roverIsFetchingPhotos,
     roverRequestManifestSuccess,
     roverRequestManifestError,
     roverRequestPhotos,
@@ -14,8 +15,10 @@ import {
 function* roverRequestManifestWorker(action) {
     yield put(roverIsFetching(true))
     try {
-        const manifest = yield call(getManifest, action.payload)
-        yield put(roverRequestManifestSuccess(manifest))
+        const manifest = yield call(get, {
+            path: `manifests/${action.payload}`
+        })
+        yield put(roverRequestManifestSuccess(manifest.photo_manifest))
     } catch(err) {
         console.log(err)
         yield put(roverRequestManifestError("Error al obtener el manifest"))
@@ -23,9 +26,12 @@ function* roverRequestManifestWorker(action) {
 }
 
 function* roverRequestPhotosWorker(action) {
-    yield put(roverIsFetching(true))
+    yield put(roverIsFetchingPhotos(true))
     try {
-        const photos = yield call(get, `rovers/${action.payload.rover}/photos?sol=2890&api_key=${process.env.REACT_APP_API_KEY}&page=${action.payload.page}`)
+        const photos = yield call(get, {
+            path: `rovers/${action.payload.rover}/photos`,
+            params: action.payload.params
+        })
         yield put(roverRequestPhotoSuccess(photos.photos))
     } catch(err) {
         console.log(err)

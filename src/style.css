@@ -1,0 +1,26 @@
+.Navbar {
+    border-right: solid 1px #ddd;
+    padding-bottom: 2em;
+}
+
+.Navbar .Title {
+    padding-bottom: 2em;
+}
+
+.SidebarSubtitle {
+    padding-top: .73rem;
+}
+
+.RoverSubtitleWrapper {
+    border-bottom: solid 1px #ddd;
+}
+
+.RoverSubtitle {
+    padding-top: .73rem;
+}
+
+.Search{
+    border-left: solid 1px #ddd;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
