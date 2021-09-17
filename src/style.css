@@ -24,3 +24,16 @@
     padding-top: 2em;
     padding-bottom: 2em;
 }
+
+.Search .control {
+    margin-bottom: 1rem;
+}
+
+.WrapperPhotos .card {
+    cursor: pointer;
+}
+
+.WrapperPhotos .column {
+    padding-bottom: var(--columnGap);
+    padding-top: var(--columnGap);
+}

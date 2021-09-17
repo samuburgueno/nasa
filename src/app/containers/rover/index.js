@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
-import Loading from '../../components/loading'
-import EmptyState from '../../components/empty-state'
-import Modal from '../../components/modal'
+import { Loading, EmptyState, Modal } from '../../components'
 
 import { roverRequestManifest, roverRequestPhotos } from '../../services/models/rover/slice';
+import { filterRequestSearch } from '../../services/models/filter/slice'
 
 const Rover = ({ selectedRover }) => {
 	const dispatch = useDispatch()
@@ -33,12 +33,13 @@ const Rover = ({ selectedRover }) => {
 		dispatch(roverRequestManifest(selectedRover))
 	}, [selectedRover])
 
+	// Cuando cambia el rover elegido se obtiene el manifest del mismo y seteo los parametros del query.
 	useEffect(() => {
 		if(rover.manifest.name !== undefined) {
-			getPhotos({
+			dispatch(filterRequestSearch({
 				page: currentPage,
-				sol: rover.manifest.max_sol
-			})
+				earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD')
+			}))
 		}
 	}, [rover.manifest])
 
@@ -46,6 +47,7 @@ const Rover = ({ selectedRover }) => {
 		setPhotos(rover.photos)
 	}, [rover.photos])
 
+	// Cuando cambian los filtros de busqueda realizo el nuevo query
 	useEffect(() => {
 		getPhotos({
 			...filters.lastSearch, 

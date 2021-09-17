@@ -20,9 +20,10 @@ const Search = () => {
 
 	const { handleSubmit, control, getValues, setValue } = useForm({
 		defaultValues: {
-			earth_date: new Date(),
+			earth_date: moment(rover.manifest.max_date).toDate(),
 			date_filter: "earth_date",
-			sol: rover.manifest.max_sol
+			sol: rover.manifest.max_sol,
+			camera: undefined
 		}
 	})
 	useWatch({ control, name: ['date_filter', 'camera'] })
@@ -74,7 +75,13 @@ const Search = () => {
 				break
 			default: break
 		}
+		console.log(rover.manifest.max_date)
 	}, [rover.manifest.name])
+
+	const setMaxDate = () => {
+		const maxDatePicker = moment(rover.manifest.max_date).add(1, 'days');
+		return maxDatePicker.toDate()
+	}
 
 	return(
 		<div className="column Search">
@@ -123,7 +130,7 @@ const Search = () => {
 									className="input"
 									dateFormat="dd/MM/yyyy"
 									locale="es"
-									maxDate={new Date(rover.manifest.max_date)}
+									maxDate={setMaxDate()}
 									onChange={onChange}
 									onBlur={onBlur}
 									selected={value}
