@@ -29,7 +29,11 @@
     margin-bottom: 1rem;
 }
 
-.WrapperPhotos .card {
+.Search .radio input {
+    margin-right: 5px;
+}
+
+.WrapperPhotos .card, .Search .control .tags .tag {
     cursor: pointer;
 }
 

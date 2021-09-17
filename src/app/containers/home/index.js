@@ -13,9 +13,7 @@ const Home = (props) => {
 		<Layout className="Home">
 			<Nabvar />
 			<Rover {...props} />
-			{rover.manifest.name !== undefined &&
-				<Search />
-			}
+			<Search key={props.selectedRover} />
 		</Layout>
 	)
 }

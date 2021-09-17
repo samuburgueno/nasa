@@ -38,7 +38,8 @@ const Rover = ({ selectedRover }) => {
 		if(rover.manifest.name !== undefined) {
 			dispatch(filterRequestSearch({
 				page: currentPage,
-				earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD')
+				earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD'),
+				rover: selectedRover
 			}))
 		}
 	}, [rover.manifest])

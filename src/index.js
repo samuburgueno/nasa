@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import store from './app/services/store';
 import 'bulma/css/bulma.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 import './style.css'
 
 let persistor = persistStore(store)

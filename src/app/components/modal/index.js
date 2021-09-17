@@ -6,7 +6,7 @@ const Modal = ({ image, setShowModal }) => {
 			<div className="modal-background"></div>
 				<div className="modal-content">
 					<p className="image is-4by3">
-						<img src={image} />
+						<img src={image} alt="Imagen en modal" />
 					</p>
 				</div>
 			<button onClick={() => setShowModal(false)} className="modal-close is-large" aria-label="close"></button>

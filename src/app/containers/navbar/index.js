@@ -1,7 +1,10 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
+	const { filters } = useSelector((state) => state)
+
 	return(
 		<div className="column Navbar">
 			<div className="columns is-flex-direction-column">
@@ -18,6 +21,17 @@ const Navbar = () => {
 							<li><Link to="/curiosity">Curiosity</Link></li>
 							<li><Link to="/opportunity">Opportunity</Link></li>
 							<li><Link to="/spirit">Spirit</Link></li>
+						</ul>
+					</aside>
+				</div>
+
+				<div className="column">
+					<aside className="menu">
+						<p className="menu-label">Búsquedas guardadas</p>
+						<ul className="menu-list">
+							{filters.searches.map((search) => 
+								<li><a>{`${search.earth_date} ${search.camera}`}</a></li>
+							)}
 						</ul>
 					</aside>
 				</div>
