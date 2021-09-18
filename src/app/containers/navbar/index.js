@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment';
 
@@ -16,15 +16,7 @@ const Navbar = () => {
 	const handleClickSearch = (search) => {
 		history.push(`/${search.rover}`)
 		dispatch(filterRequestSearchFavorite(true))
-		
-		if(search.rover !== rover.manifest.name.toLowerCase()) {
-			dispatch(roverRequestManifest(search.rover))
-		}
-
-		dispatch(roverRequestPhotos({
-			params: search,
-			rover: search.rover
-		}))
+		dispatch(filterRequestSearch(search))
 	}
 
 	const handleClickDelete = (index) => {

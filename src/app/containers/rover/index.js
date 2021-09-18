@@ -32,19 +32,20 @@ const Rover = ({ selectedRover }) => {
 
 	useEffect(() => {
 		if(rover?.manifest?.name?.toLowerCase() !== selectedRover) {
+			setPhotos([])
 			dispatch(roverRequestManifest(selectedRover))
 		}
 		
-		if(rover.manifest.max_date) {
-			dispatch(roverRequestPhotos({
-				params: {
-					page: currentPage,
-					earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD')
-				},
-				rover: selectedRover
-			}))
-		}
-	}, [selectedRover, rover.manifest.max_date, currentPage])
+		// if(rover.manifest.max_date) {
+		// 	dispatch(roverRequestPhotos({
+		// 		params: {
+		// 			page: currentPage,
+		// 			earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD')
+		// 		},
+		// 		rover: selectedRover
+		// 	}))
+		// }
+	}, [selectedRover, rover.manifest.name])
 
 	// Cuando cambia el rover elegido se obtiene el manifest del mismo y seteo los parametros del query.
 	// useEffect(() => {

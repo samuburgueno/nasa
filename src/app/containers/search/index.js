@@ -7,7 +7,7 @@ import es from 'date-fns/locale/es';
 import '../../services/utils/moment'
 import "react-datepicker/dist/react-datepicker.css";
 
-import { filterRequestSearch, filterSaveSearch } from '../../services/models/filter/slice'
+import { filterRequestSearch, filterSaveSearch, filterRequestSearchFavorite } from '../../services/models/filter/slice'
 import { roverRequestPhotos } from '../../services/models/rover/slice'
 import { CURIOSITY_CAMS, OPPORTUNITY_CAMS, SPIRIT_CAMS } from '../../services/utils/constants';
 
@@ -44,11 +44,14 @@ const Search = ({ selectedRover }) => {
 		}
 
 		search.camera = data.camera
-		search.rover = filters.lastSearch.rover
+		search.rover = selectedRover
+		search.page = 1
+
+		console.log(search)
 
 		dispatch(roverRequestPhotos({
 			rover: selectedRover,
-			params: search
+			params: search,
 		}))
 		dispatch(filterRequestSearch(search))
 		setSearches([...searches, search])
@@ -61,29 +64,6 @@ const Search = ({ selectedRover }) => {
 			setValue("camera", cam)
 		}
 	}
-
-	useEffect(() => {
-		setSearches(filters.searches)
-	}, [filters.searches])
-	
-	useEffect(() => {
-		// console.log(searches)
-	}, [searches])
-
-	useEffect(() => {
-		switch(rover.manifest.name) {
-			case 'Curiosity':
-				setCameras(CURIOSITY_CAMS)
-				break
-			case 'Opportunity':
-				setCameras(OPPORTUNITY_CAMS)
-				break
-			case 'Spirit':
-				setCameras(SPIRIT_CAMS)
-				break
-			default: break
-		}
-	}, [rover.manifest.name])
 
 	const setMaxDate = () => {
 		const maxDatePicker = moment(rover.manifest.max_date).add(1, 'days');
@@ -103,6 +83,39 @@ const Search = ({ selectedRover }) => {
 		
 		dispatch(filterSaveSearch(tempSearches))
 	}
+
+	useEffect(() => {
+		setSearches(filters.searches)
+	}, [filters.searches])
+	
+	useEffect(() => {
+		// console.log(searches)
+	}, [searches])
+
+	useEffect(() => {
+		if(filters.searchFromFavorite) {
+			dispatch(filterRequestSearchFavorite(false))
+			onSubmit({
+				...filters.lastSearch,
+				date_filter: filters.lastSearch.earth_date ? 'earth_date' : 'sol'
+			})
+		}
+	}, [filters.lastSearch, filters.searchFromFavorite])
+
+	useEffect(() => {
+		switch(rover.manifest.name) {
+			case 'Curiosity':
+				setCameras(CURIOSITY_CAMS)
+				break
+			case 'Opportunity':
+				setCameras(OPPORTUNITY_CAMS)
+				break
+			case 'Spirit':
+				setCameras(SPIRIT_CAMS)
+				break
+			default: break
+		}
+	}, [rover.manifest.name])
 
 	return(
 		<div className="column Search">
