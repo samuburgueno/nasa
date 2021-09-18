@@ -36,8 +36,7 @@ const Rover = ({ selectedRover }) => {
 			dispatch(roverRequestManifest(selectedRover))
 		}
 		
-		if(!rover.isFetchingPhotos && rover.manifest.name.toLowerCase() === selectedRover && !filters.searchFromFavorite) {
-			console.log("Viene por aca")
+		if(!rover.isFetchingPhotos && rover.manifest.name?.toLowerCase() === selectedRover && !filters.searchFromFavorite) {
 			dispatch(roverRequestPhotos({
 				params: {
 					page: currentPage,
