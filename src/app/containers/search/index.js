@@ -47,8 +47,6 @@ const Search = ({ selectedRover }) => {
 		search.rover = selectedRover
 		search.page = 1
 
-		console.log(search)
-
 		dispatch(roverRequestPhotos({
 			rover: selectedRover,
 			params: search,
@@ -87,13 +85,9 @@ const Search = ({ selectedRover }) => {
 	useEffect(() => {
 		setSearches(filters.searches)
 	}, [filters.searches])
-	
-	useEffect(() => {
-		// console.log(searches)
-	}, [searches])
 
 	useEffect(() => {
-		if(filters.searchFromFavorite) {
+		if(filters.searchFromFavorite && rover.manifest.name.toLowerCase() === filters.lastSearch.rover) {
 			dispatch(filterRequestSearchFavorite(false))
 			onSubmit({
 				...filters.lastSearch,

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link, Redirect } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment';
 
@@ -39,9 +39,9 @@ const Navbar = () => {
 					<aside className="menu">
 						<p className="menu-label">Rovers</p>
 						<ul className="menu-list">
-							<li><Link to="/curiosity">Curiosity</Link></li>
-							<li><Link to="/opportunity">Opportunity</Link></li>
-							<li><Link to="/spirit">Spirit</Link></li>
+							<li><NavLink activeClassName="is-active" to="/curiosity">Curiosity</NavLink></li>
+							<li><NavLink activeClassName="is-active" to="/opportunity">Opportunity</NavLink></li>
+							<li><NavLink activeClassName="is-active" to="/spirit">Spirit</NavLink></li>
 						</ul>
 					</aside>
 				</div>

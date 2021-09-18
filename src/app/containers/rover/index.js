@@ -36,47 +36,21 @@ const Rover = ({ selectedRover }) => {
 			dispatch(roverRequestManifest(selectedRover))
 		}
 		
-		// if(rover.manifest.max_date) {
-		// 	dispatch(roverRequestPhotos({
-		// 		params: {
-		// 			page: currentPage,
-		// 			earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD')
-		// 		},
-		// 		rover: selectedRover
-		// 	}))
-		// }
+		if(!rover.isFetchingPhotos && rover.manifest.name.toLowerCase() === selectedRover && !filters.searchFromFavorite) {
+			console.log("Viene por aca")
+			dispatch(roverRequestPhotos({
+				params: {
+					page: currentPage,
+					earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD')
+				},
+				rover: selectedRover
+			}))
+		}
 	}, [selectedRover, rover.manifest.name])
 
-	// Cuando cambia el rover elegido se obtiene el manifest del mismo y seteo los parametros del query.
-	// useEffect(() => {
-	// 	if(rover.manifest.name !== undefined) {
-	// 		getPhotos({
-	// 			page: currentPage,
-	// 			earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD')
-	// 		})
-	// 		dispatch(filterRequestSearchFavorite(false))
-	// 		// dispatch(filterRequestSearch({
-	// 		// 	page: currentPage,
-	// 		// 	earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD'),
-	// 		// 	rover: selectedRover
-	// 		// }))
-	// 	}
-	// }, [])
-
 	useEffect(() => {
-		dispatch(filterRequestSearchFavorite(false))
 		setPhotos(rover.photos)
 	}, [rover.photos])
-
-	// Cuando cambian los filtros de busqueda realizo el nuevo query
-	useEffect(() => {
-		// if(!rover.isFetchingPhotos && !rover.isFetching) {
-		// 	getPhotos({
-		// 		...filters.lastSearch, 
-		// 		page: currentPage
-		// 	})
-		// }
-	}, [filters.lastSearch])
 
 	return(
 		<div className="column is-three-fifths">
