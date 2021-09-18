@@ -11,13 +11,16 @@ import { roverRequestManifest, roverRequestPhotos } from '../../services/models/
 
 const Navbar = () => {
 	const dispatch = useDispatch()
-	const { filters } = useSelector((state) => state)
+	const { filters, rover } = useSelector((state) => state)
 
 	const handleClickSearch = (search) => {
-		console.log(search)
-		dispatch(filterRequestSearchFavorite(true))
 		history.push(`/${search.rover}`)
-		dispatch(roverRequestManifest(search.rover))
+		dispatch(filterRequestSearchFavorite(true))
+		
+		if(search.rover !== rover.manifest.name.toLowerCase()) {
+			dispatch(roverRequestManifest(search.rover))
+		}
+
 		dispatch(roverRequestPhotos({
 			params: search,
 			rover: search.rover

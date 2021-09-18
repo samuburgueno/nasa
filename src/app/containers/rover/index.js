@@ -31,31 +31,50 @@ const Rover = ({ selectedRover }) => {
 	}
 
 	useEffect(() => {
-		dispatch(roverRequestManifest(selectedRover))
-	}, [selectedRover])
-
-	// Cuando cambia el rover elegido se obtiene el manifest del mismo y seteo los parametros del query.
-	useEffect(() => {
-		if(rover.manifest.name !== undefined && !filters.searchFromFavorite) {
-			console.log("Despacho el pedido en el rover")
-			dispatch(filterRequestSearch({
-				page: currentPage,
-				earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD'),
+		if(rover?.manifest?.name?.toLowerCase() !== selectedRover) {
+			dispatch(roverRequestManifest(selectedRover))
+		}
+		
+		if(rover.manifest.max_date) {
+			dispatch(roverRequestPhotos({
+				params: {
+					page: currentPage,
+					earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD')
+				},
 				rover: selectedRover
 			}))
 		}
-	}, [rover.manifest, filters.searchFromFavorite])
+	}, [selectedRover, rover.manifest.max_date, currentPage])
+
+	// Cuando cambia el rover elegido se obtiene el manifest del mismo y seteo los parametros del query.
+	// useEffect(() => {
+	// 	if(rover.manifest.name !== undefined) {
+	// 		getPhotos({
+	// 			page: currentPage,
+	// 			earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD')
+	// 		})
+	// 		dispatch(filterRequestSearchFavorite(false))
+	// 		// dispatch(filterRequestSearch({
+	// 		// 	page: currentPage,
+	// 		// 	earth_date: moment(rover.manifest.max_date).format('YYYY-MM-DD'),
+	// 		// 	rover: selectedRover
+	// 		// }))
+	// 	}
+	// }, [])
 
 	useEffect(() => {
+		dispatch(filterRequestSearchFavorite(false))
 		setPhotos(rover.photos)
 	}, [rover.photos])
 
 	// Cuando cambian los filtros de busqueda realizo el nuevo query
 	useEffect(() => {
-		getPhotos({
-			...filters.lastSearch, 
-			page: currentPage
-		})
+		// if(!rover.isFetchingPhotos && !rover.isFetching) {
+		// 	getPhotos({
+		// 		...filters.lastSearch, 
+		// 		page: currentPage
+		// 	})
+		// }
 	}, [filters.lastSearch])
 
 	return(

@@ -8,6 +8,7 @@ import '../../services/utils/moment'
 import "react-datepicker/dist/react-datepicker.css";
 
 import { filterRequestSearch, filterSaveSearch } from '../../services/models/filter/slice'
+import { roverRequestPhotos } from '../../services/models/rover/slice'
 import { CURIOSITY_CAMS, OPPORTUNITY_CAMS, SPIRIT_CAMS } from '../../services/utils/constants';
 
 moment.locale('es')
@@ -45,6 +46,10 @@ const Search = ({ selectedRover }) => {
 		search.camera = data.camera
 		search.rover = filters.lastSearch.rover
 
+		dispatch(roverRequestPhotos({
+			rover: selectedRover,
+			params: search
+		}))
 		dispatch(filterRequestSearch(search))
 		setSearches([...searches, search])
 	}
@@ -94,7 +99,7 @@ const Search = ({ selectedRover }) => {
 
 	const saveSearch = () => {
 		let tempSearches = [...filters.searches]
-		tempSearches.push(filters.lastSearch)
+		tempSearches.push({...filters.lastSearch, rover: selectedRover})
 		
 		dispatch(filterSaveSearch(tempSearches))
 	}
