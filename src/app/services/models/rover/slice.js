@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const roverSlice = createSlice({
     name: "roverSlice",
@@ -6,9 +6,11 @@ const roverSlice = createSlice({
         manifest: {},
         isFetching: false,
         isFetchingPhotos: false,
+        isFetchingScroll: false,
         error: false,
         message: "",
-        photos: []
+        photos: [],
+        photosScroll: []
     },
     reducers: {
         roverRequestManifest(state, action) {},
@@ -17,6 +19,9 @@ const roverSlice = createSlice({
         },
         roverIsFetchingPhotos(state, action) {
             state.isFetchingPhotos = action.payload
+        },
+        roverIsFetchingScroll(state, action) {
+            state.isFetchingScroll = action.payload
         },
         roverRequestManifestSuccess(state, action) {
             state.isFetching = false
@@ -30,7 +35,7 @@ const roverSlice = createSlice({
             state.message = action.payload
         },
         roverRequestPhotos(state, action) {},
-        roverRequestPhotoSuccess(state, action) {
+        roverRequestPhotoSuccess(state, action) {
             state.isFetchingPhotos = false
             state.photos = action.payload
             state.error = false
@@ -40,11 +45,23 @@ const roverSlice = createSlice({
             state.isFetchingPhotos = false
             state.error = true
             state.message = action.payload
+        },
+        roverRequestScroll(state, action) {},
+        roverRequestScrollSuccess(state, action) {
+            state.isFetchingScroll = false
+            state.photosScroll = action.payload
+            state.error = false
+            state.message = ""
+        },
+        roverRequestScrollError(state, action) {
+            state.isFetchingScroll = false
+            state.error = true
+            state.message = action.payload
         }
     }
 })
 
-const { actions, reducer } = roverSlice
+const { actions, reducer } = roverSlice
 
 export const { 
     roverRequestManifest,
@@ -54,7 +71,11 @@ export const {
     roverRequestPhotos,
     roverRequestPhotoSuccess,
     roverRequestPhotosError,
-    roverIsFetchingPhotos
+    roverIsFetchingPhotos,
+    roverIsFetchingScroll,
+    roverRequestScroll,
+    roverRequestScrollSuccess,
+    roverRequestScrollError,
 } = actions
 
 export default reducer

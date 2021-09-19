@@ -9,12 +9,16 @@ import {
     roverRequestManifestError,
     roverRequestPhotos,
     roverRequestPhotoSuccess,
-    roverRequestPhotosError
+    roverRequestPhotosError,
+    roverIsFetchingScroll,
+    roverRequestScroll,
+    roverRequestScrollSuccess,
+    roverRequestScrollError,
 } from './slice'
 
 function* roverRequestManifestWorker(action) {
     yield put(roverIsFetching(true))
-    try {
+    try {
         const manifest = yield call(get, {
             path: `manifests/${action.payload}`
         })
@@ -27,7 +31,7 @@ function* roverRequestManifestWorker(action) {
 
 function* roverRequestPhotosWorker(action) {
     yield put(roverIsFetchingPhotos(true))
-    try {
+    try {
         const photos = yield call(get, {
             path: `rovers/${action.payload.rover}/photos`,
             params: action.payload.params
@@ -39,9 +43,24 @@ function* roverRequestPhotosWorker(action) {
     }
 }
 
+function* roverRequestScrollWorker(action) {
+    yield put(roverIsFetchingScroll(true))
+    try {
+        const photos = yield call(get, {
+            path: `rovers/${action.payload.rover}/photos`,
+            params: action.payload.params
+        })
+        yield put(roverRequestScrollSuccess(photos.photos))
+    } catch(err) {
+        console.log(err)
+        yield put(roverRequestScrollError("Error al obtener las fotos - scroll"))
+    }
+}
+
 function* roverSaga() {
     yield takeEvery(roverRequestManifest, roverRequestManifestWorker)
     yield takeEvery(roverRequestPhotos, roverRequestPhotosWorker)
+    yield takeEvery(roverRequestScroll, roverRequestScrollWorker)
 }
 
 export default roverSaga

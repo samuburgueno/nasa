@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { NavLink, Redirect } from "react-router-dom";
+import React from 'react'
+import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment';
 
@@ -7,11 +7,10 @@ import history from '../../services/navigation/history'
 import { ROVERS } from '../../services/utils/constants'
 
 import { filterRequestSearch, filterSaveSearch, filterRequestSearchFavorite } from '../../services/models/filter/slice';
-import { roverRequestManifest, roverRequestPhotos } from '../../services/models/rover/slice';
 
 const Navbar = () => {
 	const dispatch = useDispatch()
-	const { filters, rover } = useSelector((state) => state)
+	const { filters } = useSelector((state) => state)
 
 	const handleClickSearch = (search) => {
 		history.push(`/${search.rover}`)

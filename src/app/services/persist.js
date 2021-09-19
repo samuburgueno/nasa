@@ -4,7 +4,7 @@ const persistConfig = {
     key: 'root',
     storage,
     whitelist: ['filters'],
-    blacklist: ['filters.lastSearch', 'filters.searchFromFavorite']
+    blacklist: ['filters.lastSearch', 'filters.searchFromFavorite', 'rover.photosScroll']
 }
 
 export default persistConfig
