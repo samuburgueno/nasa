@@ -22,7 +22,6 @@ const Rover = ({ selectedRover }) => {
 		if (observer.current) observer.current.disconnect();
 		observer.current = new IntersectionObserver((entries) => {
 			if (entries[0].isIntersecting) {
-				console.log("Incremento el contador")
 				setCurrentPage((prev) => prev + 1);
 			}
 		});
@@ -60,7 +59,7 @@ const Rover = ({ selectedRover }) => {
 	}, [rover.photos])
 
 	useEffect(() => {
-		if(!rover.isFetchingScroll && currentPage !== 1) {
+		if(!rover.isFetchingScroll && currentPage !== 1 && rover.hasMore) {
 			let params = {...filters.lastSearch}
 			params.page = currentPage
 			
@@ -77,6 +76,10 @@ const Rover = ({ selectedRover }) => {
 			setPhotos(tempPhotos)
 		}
 	}, [rover.photosScroll])
+
+	useEffect(() => {
+		setCurrentPage(1)
+	}, [filters.lastSearch])
 
 	return(
 		<div className="column is-three-fifths">

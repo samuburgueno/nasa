@@ -10,7 +10,8 @@ const roverSlice = createSlice({
         error: false,
         message: "",
         photos: [],
-        photosScroll: []
+        photosScroll: [],
+        hasMore: true
     },
     reducers: {
         roverRequestManifest(state, action) {},
@@ -40,6 +41,7 @@ const roverSlice = createSlice({
             state.photos = action.payload
             state.error = false
             state.message = ""
+            state.hasMore = true
         },
         roverRequestPhotosError(state, action) {
             state.isFetchingPhotos = false
@@ -49,7 +51,8 @@ const roverSlice = createSlice({
         roverRequestScroll(state, action) {},
         roverRequestScrollSuccess(state, action) {
             state.isFetchingScroll = false
-            state.photosScroll = action.payload
+            state.photosScroll = action.payload.photos
+            state.hasMore = action.payload.hasMore
             state.error = false
             state.message = ""
         },

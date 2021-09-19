@@ -50,7 +50,10 @@ function* roverRequestScrollWorker(action) {
             path: `rovers/${action.payload.rover}/photos`,
             params: action.payload.params
         })
-        yield put(roverRequestScrollSuccess(photos.photos))
+        yield put(roverRequestScrollSuccess({
+            photos: photos.photos,
+            hasMore: photos.photos.length === 0 ? false : true
+        }))
     } catch(err) {
         console.log(err)
         yield put(roverRequestScrollError("Error al obtener las fotos - scroll"))
