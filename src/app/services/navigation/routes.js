@@ -11,7 +11,7 @@ import history from './history';
 
 const Routes = () => {
   return (
-    <HashRouter history={history}>
+    <HashRouter history={history} basename="nasa">
         <Switch>
             <Route exact path="/">
                 <Redirect to="/curiosity" />
