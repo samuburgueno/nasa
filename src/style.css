@@ -45,3 +45,9 @@
 .box .buttons {
     margin-top: 5px;
 }
+
+@media (max-width: 768px) {
+    .Home {
+        margin: 0;
+    }
+}
