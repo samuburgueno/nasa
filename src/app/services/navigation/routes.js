@@ -11,7 +11,7 @@ import history from './history';
 
 const Routes = () => {
   return (
-    <Router history={history} basename="nasa">
+    <Router history={history} basename={process.env.PUBLIC_URL}>
         <Switch>
             <Route exact path="/">
                 <Redirect to="/curiosity" />
