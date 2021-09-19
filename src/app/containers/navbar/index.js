@@ -13,7 +13,7 @@ const Navbar = () => {
 	const { filters } = useSelector((state) => state)
 
 	const handleClickSearch = (search) => {
-		history.push(`/${search.rover}`)
+		history.push(`#/${search.rover}`)
 		dispatch(filterRequestSearchFavorite(true))
 		dispatch(filterRequestSearch(search))
 	}

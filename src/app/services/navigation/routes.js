@@ -1,9 +1,9 @@
 import React from 'react'
 import {
-    Router,
     Switch,
     Route,
-    Redirect
+    Redirect,
+    HashRouter
 } from "react-router-dom";
 
 import Home from '../../containers/home'
@@ -11,7 +11,7 @@ import history from './history';
 
 const Routes = () => {
   return (
-    <Router history={history} basename={process.env.PUBLIC_URL}>
+    <HashRouter history={history}>
         <Switch>
             <Route exact path="/">
                 <Redirect to="/curiosity" />
@@ -29,7 +29,7 @@ const Routes = () => {
                 <Home selectedRover="spirit" />
             </Route>
         </Switch>
-    </Router>
+    </HashRouter>
   );
 }
 
