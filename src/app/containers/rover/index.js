@@ -82,7 +82,7 @@ const Rover = ({ selectedRover }) => {
 	}, [filters.lastSearch])
 
 	return(
-		<div className="column is-three-fifths">
+		<div className="column Rover is-three-fifths">
 			<div className="columns is-flex-direction-column">
 				<div className="column RoverSubtitleWrapper">
 					<section className="RoverSubtitle">

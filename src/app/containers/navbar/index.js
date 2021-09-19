@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import history from '../../services/navigation/history'
 import { ROVERS } from '../../services/utils/constants'
+import SouthernCodeLogo from '../../assets/images/southerncode.webp'
 
 import { filterRequestSearch, filterSaveSearch, filterRequestSearchFavorite } from '../../services/models/filter/slice';
 
@@ -30,7 +31,7 @@ const Navbar = () => {
 			<div className="columns is-flex-direction-column">
 				<div className="column">
 					<section className="SidebarSubtitle">
-						<h2 className="subtitle">SouthernCode</h2>
+						<img src={SouthernCodeLogo} alt="SouthernCode" width="170px" />
 					</section>
 				</div>
 			

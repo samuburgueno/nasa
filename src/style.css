@@ -21,7 +21,6 @@
 
 .Search{
     border-left: solid 1px #ddd;
-    padding-top: 2em;
     padding-bottom: 2em;
 }
 
@@ -49,5 +48,24 @@
 @media (max-width: 768px) {
     .Home {
         margin: 0;
+        flex-direction: column;
+    }
+
+    .Home .Rover.column.is-three-fifths {
+        width: 100%;
+    }
+
+    .Rover {
+        order: 3;
+    }
+
+    .Navbar .box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .Navbar .box .baseline {
+        align-items: baseline;
     }
 }

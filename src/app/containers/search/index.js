@@ -113,127 +113,137 @@ const Search = ({ selectedRover }) => {
 
 	return(
 		<div className="column Search">
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div className="control">
-					<label className="label" htmlFor="date_filter">Tipo de fecha</label>
-					<Controller
-						control={control}
-						name="date_filter"
-						render={({ field: { onChange, onBlur, value, ref } }) => (
-							<div className="control">
-								<label className="radio">
-									<input 
-										onChange={onChange} 
-										onBlur={onBlur} 
-										ref={ref} 
-										type="radio" 
-										value="earth_date" 
-										checked={value === 'earth_date' ? true : false}
-										name="date_filter" />
-									Tierra</label>
-								<label className="radio">
-									<input 
-										onChange={onChange} 
-										onBlur={onBlur} 
-										ref={ref} 
-										type="radio" 
-										value="sol" 
-										checked={value === 'sol' ? true : false}
-										name="date_filter" />
-									Sol</label>
-							</div>
-						)}
-					/>
+			<div className="columns is-flex-direction-column">
+				<div className="column">
+					<section className="SidebarSubtitle">
+						<h2 className="subtitle">Buscador</h2>
+					</section>
 				</div>
 
-				{(getValues('date_filter') === 'earth_date') &&
-					<div className="control">
-						<label className="label" htmlFor="earth_date">Fecha terrestre</label>
-						<Controller
-							control={control}
-							name="earth_date"
-							render={({ field: { onChange, onBlur, value, ref } }) => (
-								<DatePicker
-									className="input"
-									dateFormat="dd/MM/yyyy"
-									locale="es"
-									maxDate={setMaxDate()}
-									onChange={onChange}
-									onBlur={onBlur}
-									selected={value}
-									ref={ref} />
+				<div className="column">
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className="control">
+							<label className="label" htmlFor="date_filter">Tipo de fecha</label>
+							<Controller
+								control={control}
+								name="date_filter"
+								render={({ field: { onChange, onBlur, value, ref } }) => (
+									<div className="control">
+										<label className="radio">
+											<input 
+												onChange={onChange} 
+												onBlur={onBlur} 
+												ref={ref} 
+												type="radio" 
+												value="earth_date" 
+												checked={value === 'earth_date' ? true : false}
+												name="date_filter" />
+											Tierra</label>
+										<label className="radio">
+											<input 
+												onChange={onChange} 
+												onBlur={onBlur} 
+												ref={ref} 
+												type="radio" 
+												value="sol" 
+												checked={value === 'sol' ? true : false}
+												name="date_filter" />
+											Sol</label>
+									</div>
 								)}
 							/>
-					</div>
-				}
-				
-				{(getValues('date_filter') === 'sol') &&
-					<div className="control">
-					<label className="label" htmlFor="sol">Fecha solar</label>
-						<Controller
+						</div>
+
+						{(getValues('date_filter') === 'earth_date') &&
+							<div className="control">
+								<label className="label" htmlFor="earth_date">Fecha terrestre</label>
+								<Controller
+									control={control}
+									name="earth_date"
+									render={({ field: { onChange, onBlur, value, ref } }) => (
+										<DatePicker
+											className="input"
+											dateFormat="dd/MM/yyyy"
+											locale="es"
+											maxDate={setMaxDate()}
+											onChange={onChange}
+											onBlur={onBlur}
+											selected={value}
+											ref={ref} />
+										)}
+									/>
+							</div>
+						}
+						
+						{(getValues('date_filter') === 'sol') &&
+							<div className="control">
+							<label className="label" htmlFor="sol">Fecha solar</label>
+								<Controller
+									control={control}
+									name="sol"
+									render={({ field: { onChange, onBlur, value, ref } }) => (
+										<input
+											type="number"
+											min={1}
+											placeholder={rover.manifest.max_sol}
+											max={rover.manifest.max_sol}
+											className="input"
+											onChange={onChange}
+											onBlur={onBlur}
+											ref={ref} />
+									)}
+								/>
+							</div>
+						}
+
+						<div className="control">
+							<label className="label">Cámaras</label>
+							<div className="tags">
+								{cameras.map((cam) => 
+									<span onClick={() => onClickCamera(cam)} key={cam} className={`tag ${getValues("camera") === cam ? 'is-primary' : ''}`}>{cam}</span>
+								)}
+							</div>
+						</div>
+
+						<Controller 
 							control={control}
-							name="sol"
+							name="camera"
 							render={({ field: { onChange, onBlur, value, ref } }) => (
-								<input
-									type="number"
-									min={1}
-									placeholder={rover.manifest.max_sol}
-									max={rover.manifest.max_sol}
-									className="input"
-									onChange={onChange}
-									onBlur={onBlur}
-									ref={ref} />
+								<input type="hidden" />
 							)}
 						/>
+
+						<div className="control">
+							<input type="submit" className="button is-primary input" value="Buscar" />
+						</div>
+					</form>
+
+					<div className="control">
+						<button onClick={saveSearch} className="button is-fullwidth">
+							<span className="icon"><i className="fa fa-bookmark"></i></span>
+							<span>Guardar búsqueda</span>
+						</button>
 					</div>
-				}
 
-				<div className="control">
-					<label className="label">Cámaras</label>
-					<div className="tags">
-						{cameras.map((cam) => 
-							<span onClick={() => onClickCamera(cam)} key={cam} className={`tag ${getValues("camera") === cam ? 'is-primary' : ''}`}>{cam}</span>
-						)}
-					</div>
+					<article className="message">
+					  	<div className="message-header"><p>Información del {rover.manifest.name}</p></div>
+					  	<div className="message-body">
+					  		<p>
+					  			La misión del rover {rover.manifest.name} fué lanzada en <strong>{moment(rover.manifest.launch_date).format('MMMM [de] YYYY')}</strong> y
+					  			aterrizó en la superficie de Marte el día <strong>{moment(rover.manifest.landing_date).format('DD [de] MMMM  [de] YYYY')}</strong>. <br/>
+					  			
+					  			{rover.manifest.status === 'complete' &&
+					  				<>El rover estuvo <strong>{getMisionDays()} días</strong> en misión, y capturó un total de <strong>{rover.manifest.total_photos} fotografías</strong>.</>
+					  			}
+
+					  			{rover.manifest.status === 'active' &&
+					  				<>El rover hasta el momento lleva <strong>{getMisionDays()} días</strong> en misión y <strong>{rover.manifest.total_photos} fotografías</strong> capturadas.</>
+					  			}
+					  		</p>
+					  	</div>
+					</article>
 				</div>
-
-				<Controller 
-					control={control}
-					name="camera"
-					render={({ field: { onChange, onBlur, value, ref } }) => (
-						<input type="hidden" />
-					)}
-				/>
-
-				<div className="control">
-					<input type="submit" className="button is-primary input" value="Buscar" />
-				</div>
-			</form>
-
-			<div className="control">
-				<button onClick={saveSearch} className="button is-fullwidth">
-					<span className="icon"><i className="fa fa-bookmark"></i></span>
-					<span>Guardar búsqueda</span>
-				</button>
 			</div>
-
-			<article className="message">
-			  	<div className="message-header"><p>Información del {rover.manifest.name}</p></div>
-			  	<div className="message-body">
-			  		<p>
-			  			La misión del rover {rover.manifest.name} fué lanzada en <strong>{moment(rover.manifest.launch_date).format('MMMM [de] YYYY')}</strong> y
-			  			aterrizó en la superficie de Marte el día <strong>{moment(rover.manifest.landing_date).format('DD [de] MMMM  [de] YYYY')}</strong>. <br/>
-			  			
-			  			{rover.manifest.status === 'complete' &&
-			  				<>El rover estuvo <strong>{getMisionDays()} días</strong> en misión, y capturó un total de <strong>{rover.manifest.total_photos} fotografías</strong>.</>
-			  			}
-
-			  			{rover.manifest.status === 'active' &&
-			  				<>El rover hasta el momento lleva <strong>{getMisionDays()} días</strong> en misión y <strong>{rover.manifest.total_photos} fotografías</strong> capturadas.</>
-			  			}
-			  		</p>
-			  	</div>
-			</article>
 		</div>
 	)
 }
