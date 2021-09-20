@@ -1,7 +1,7 @@
 {
   "name": "southerncode",
   "homepage": "https://nasa.samuburgueno.com",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
