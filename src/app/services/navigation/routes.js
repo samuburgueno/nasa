@@ -3,7 +3,7 @@ import {
     Switch,
     Route,
     Redirect,
-    HashRouter
+    Router
 } from "react-router-dom";
 
 import Home from '../../containers/home'
@@ -11,7 +11,7 @@ import history from './history';
 
 const Routes = () => {
   return (
-    <HashRouter history={history} basename="nasa">
+    <Router history={history}>
         <Switch>
             <Route exact path="/">
                 <Redirect to="/curiosity" />
@@ -29,7 +29,7 @@ const Routes = () => {
                 <Home selectedRover="spirit" />
             </Route>
         </Switch>
-    </HashRouter>
+    </Router>
   );
 }
 
