@@ -20,7 +20,7 @@ const Navbar = () => {
 	}
 
 	const handleClickDelete = (index) => {
-		let tempSearches = [...filters.searches]
+		const tempSearches = [...filters.searches]
 		tempSearches.splice(index, 1)
 		
 		dispatch(filterSaveSearch(tempSearches))

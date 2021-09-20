@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery } from 'redux-saga/effects'
 
 import { get } from '../../api'
 import { 
@@ -37,7 +37,7 @@ function* roverRequestPhotosWorker(action) {
             params: action.payload.params
         })
         yield put(roverRequestPhotoSuccess(photos.photos))
-    } catch(err) {
+    } catch(err) {
         console.log(err)
         yield put(roverRequestPhotosError("Error al obtener las fotos"))
     }
@@ -52,7 +52,7 @@ function* roverRequestScrollWorker(action) {
         })
         yield put(roverRequestScrollSuccess({
             photos: photos.photos,
-            hasMore: photos.photos.length === 0 ? false : true
+            hasMore: !!photos.photos.length
         }))
     } catch(err) {
         console.log(err)

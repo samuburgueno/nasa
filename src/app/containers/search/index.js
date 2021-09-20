@@ -76,7 +76,7 @@ const Search = ({ selectedRover }) => {
 	}
 
 	const saveSearch = () => {
-		let tempSearches = [...filters.searches]
+		const tempSearches = [...filters.searches]
 		tempSearches.push({...filters.lastSearch, rover: selectedRover})
 		
 		dispatch(filterSaveSearch(tempSearches))
@@ -136,7 +136,7 @@ const Search = ({ selectedRover }) => {
 												ref={ref} 
 												type="radio" 
 												value="earth_date" 
-												checked={value === 'earth_date' ? true : false}
+												checked={value === 'earth_date' || false}
 												name="date_filter" />
 											Tierra</label>
 										<label className="radio">
@@ -146,7 +146,7 @@ const Search = ({ selectedRover }) => {
 												ref={ref} 
 												type="radio" 
 												value="sol" 
-												checked={value === 'sol' ? true : false}
+												checked={value === 'sol' || false}
 												name="date_filter" />
 											Sol</label>
 									</div>

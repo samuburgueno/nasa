@@ -16,7 +16,7 @@ export const OPPORTUNITY_CAMS = [
     "MINITES"
 ]
 
-export const SPIRIT_CAMS = [
+export const SPIRIT_CAMS = [
     "FHAZ",
     "RHAZ",
     "NAVCAM",

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
-import { Loading, EmptyState, Modal } from '../../components'
+import { Loading, EmptyState, Modal, Photo } from '../../components'
 
 import { roverRequestManifest, roverRequestPhotos, roverRequestScroll } from '../../services/models/rover/slice';
 import { filterRequestSearch } from '../../services/models/filter/slice'
@@ -60,7 +60,7 @@ const Rover = ({ selectedRover }) => {
 
 	useEffect(() => {
 		if(!rover.isFetchingScroll && currentPage !== 1 && rover.hasMore) {
-			let params = {...filters.lastSearch}
+			const params = {...filters.lastSearch}
 			params.page = currentPage
 			
 			dispatch(roverRequestScroll({
@@ -106,26 +106,8 @@ const Rover = ({ selectedRover }) => {
 							<div className="WrapperPhotos columns is-flex-wrap-wrap is-variable is-2">
 								{photos.map((photo, index) => {
 									const lastPhoto = photos.length === index + 1
-									return lastPhoto ? (
-										<div key={photo.id} ref={lastPhotoRef} onClick={() => openModal(photo.img_src)} key={photo.id} className="column is-one-third">
-											<div className="card">
-												<div className="card-image">
-													<figure className="image is-4by3">
-														<img src={photo.img_src} alt={`Fotografía ${photo.id}`} />
-													</figure>
-												</div>
-											</div>
-										</div>
-									) : (
-										<div key={photo.id} onClick={() => openModal(photo.img_src)} key={photo.id} className="column is-one-third">
-											<div className="card">
-												<div className="card-image">
-													<figure className="image is-4by3">
-														<img src={photo.img_src} alt={`Fotografía ${photo.id}`} />
-													</figure>
-												</div>
-											</div>
-										</div>
+									return (
+										<Photo key={photo.id} photo={photo} lastPhotoRef={lastPhoto ? lastPhotoRef : undefined} openModal={openModal} />
 									)
 								})}
 							</div>

@@ -11,7 +11,7 @@ import 'bulma/css/bulma.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import './style.css'
 
-let persistor = persistStore(store)
+const persistor = persistStore(store)
 
 ReactDOM.render(
   <React.StrictMode>
